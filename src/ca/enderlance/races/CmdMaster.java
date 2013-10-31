@@ -5,18 +5,22 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class CmdMaster
+public class CmdMaster implements CommandExecutor
 {
 	private Races plugin;
 	
-	public boolean commandMaster(CommandSender sender, Command cmd, String label, String[] args)
+	public CmdMaster(Races plugin)
+	{
+		this.plugin = plugin;
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		Player player = (Player) sender;
 		if(player.hasPermission("myrace.wraith.cmd"))
 		{
-			if(label.equalsIgnoreCase("w"))
+			if(label.equalsIgnoreCase("wraith"))
 			{
 				if(args.length == 0)
 				{
@@ -37,7 +41,9 @@ public class CmdMaster
 				{
 					if(args[0].equalsIgnoreCase("reap") || args[0].equalsIgnoreCase("r"))
 					{
-						
+						Player tplayer = player.getServer().getPlayer(args[1]);
+				        double damage = player.getLevel()/10;
+						reapSoulPlayer(player, tplayer, damage);
 					}
 				}
 			}
@@ -45,14 +51,13 @@ public class CmdMaster
 		return true;
 	}
 	
-	public boolean reapSoul(Player player, Player tplayer, double damage)
+	public boolean reapSoulPlayer(Player player, Player tplayer, double damage)
 	{
 	    if(player.hasPermission("myrace.wraith.reap"))
 	    {
 	        player.sendMessage(ChatColor.DARK_GRAY + "You have reaped " + tplayer.getName() + "'s soul.");
-	        damage = player.getLevel()/10;
 	        double heal = damage/2;
-	        double playerHealth = (double) player.getHealth();
+	        double playerHealth = player.getHealth();
 	        tplayer.damage(damage);
 	        player.setHealth(playerHealth + heal);
 	    }

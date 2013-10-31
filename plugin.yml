@@ -2,3 +2,6 @@ name: myRace
 version: 0.1
 main: ca.enderlance.races.Races
 description: A set of races for the users to enjoy.
+commands:
+  wraith:
+    description: Base command for Wraiths.
