@@ -44,5 +44,18 @@ public class CmdMaster
 		}
 		return true;
 	}
-	public boolean reapSoul()
+	
+	public boolean reapSoul(Player player, Player tplayer, double damage)
+	{
+	    if(player.hasPermission("myrace.wraith.reap"))
+	    {
+	        player.sendMessage(ChatColor.DARK_GRAY + "You have reaped " + tplayer.getName() + "'s soul.");
+	        damage = player.getLevel()/10;
+	        double heal = damage/2;
+	        double playerHealth = (double) player.getHealth();
+	        tplayer.damage(damage);
+	        player.setHealth(playerHealth + heal);
+	    }
+	    return true;
+	}
 }
