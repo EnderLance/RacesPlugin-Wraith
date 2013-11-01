@@ -5,3 +5,4 @@ description: A set of races for the users to enjoy.
 commands:
   wraith:
     description: Base command for Wraiths.
+    permission: myrace.wraith.use

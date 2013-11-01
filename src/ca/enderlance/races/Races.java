@@ -55,17 +55,17 @@ public class Races extends JavaPlugin
 	public void onRightClick(PlayerInteractEntityEvent e)
 	{
 		Player player = (Player) e.getPlayer();
-		Entity tentity = (Player) e.getRightClicked();
+		LivingEntity tentity = (LivingEntity) e.getRightClicked();
 		drain(player, tentity, 1.00);
 	}
 	
-	public void drain(Player player, Entity entity, double damage)
+	public void drain(Player player, LivingEntity entity, double damage)
 	{
 		if (player.hasPermission("myrace.wraith.drain1") && !player.hasPermission("myrace.wraith.drain2"))
 		{
 			if ((entity instanceof LivingEntity))
 			{
-				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage);
+				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage*2);
 				player.setHealth(player.getHealth() + damage/2);
 				player.sendMessage(ChatColor.DARK_GRAY + "You have devoured a soul.");
 			}
@@ -78,7 +78,7 @@ public class Races extends JavaPlugin
 		{
 			if ((entity instanceof LivingEntity))
 			{
-				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage);
+				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage*4);
 				player.setHealth(player.getHealth() + damage/2);
 				player.sendMessage(ChatColor.DARK_GRAY + "You have devoured a soul.");
 			}
@@ -91,7 +91,7 @@ public class Races extends JavaPlugin
 		{
 			if ((entity instanceof LivingEntity))
 			{
-				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage);
+				((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth() - damage*6);
 				player.setHealth(player.getHealth() + damage/2);
 				player.sendMessage(ChatColor.DARK_GRAY + "You have devoured a soul.");
 			}
@@ -104,63 +104,22 @@ public class Races extends JavaPlugin
 		}
 	}
 	
+	Player[] players;
+	
 	@EventHandler
     public void onPlayerToggleSneak(PlayerToggleSneakEvent event)
 	{
-		Player[] players;
 		Player player = (Player) event.getPlayer();
 		if(player.hasPermission("myrace.wraith.dissipate"))
 		{
-			players = getServer().getOnlinePlayers();
-			if(event.isSneaking() == true && player.isFlying() == false)
+			if(player.isSneaking() && !player.isFlying())
 			{
-				for(int i = 0; i< players.length; i++)
+				players = getServer().getOnlinePlayers();
+				for(int i = 0; i < players.length; i++)
 				{
-					players[i].hidePlayer(player);
-					Location loc = event.getPlayer().getLocation();
-					//event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 0);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 0);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 1);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 2);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 3);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 4);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 6);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 7);
-					loc.setY(loc.getY()+0.5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 0);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 1);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 2);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 3);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 4);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 6);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 7);
-					loc.setY(loc.getY()+0.5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 0);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 1);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 2);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 3);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 4);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 6);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 7);
-					loc.setY(loc.getY()+0.5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 0);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 1);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 2);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 3);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 4);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 5);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 6);
-					event.getPlayer().getWorld().playEffect(loc, Effect.SMOKE, 7);
+					player.hidePlayer(player);
+					player.sendMessage("You have dissipated into mist.");
 				}
-			}
-			else{
-	    		for(int i = 0; i< players.length; i++)
-	    		{
-					players[i].showPlayer((Player) event.getPlayer());
-				}	
 			}
 		}
 	}
